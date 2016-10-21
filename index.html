@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Test</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!--<script type='text/javascript' src='js/jquery.ba-hashchange.min.js'></script>-->
+    <script src="js/jquery.easing.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="action.js"></script>
+  </head>
+
+  <body>
+    <div class="col-lg-2 col-md-2 col-xs-2">
+      <p>
+      <h1> Test </h1>
+        Click on the main image, or on
+        the thumb views.
+      </p>
+    </div>
+    <div class="col-lg-10 col-md-10 col-xs-10">
+    <div class="container-fluid imageViewController">
+    </br>
+ 
+      <div class="imageView" id="imageView1">
+
+      </div>
+      <div class="container-fluid" style="padding-top: 50px; padding-bottom: 25px; text-align: center;">
+        <row>
+          <div class="col-lg-2 col-md-2 col-xs-2">
+              <div class="thumbView" id="thumbView0"></div>
+          </div>
+  
+          <div class="col-lg-2 col-md-2 col-xs-2">
+              <div class="thumbView" id="thumbView1"></div>
+          </div>
+  
+          <div class="col-lg-2 col-md-2 col-xs-2">
+              <div class="thumbView" id="thumbView2"></div>
+          </div>
+  
+          <div class="col-lg-2 col-md-2 col-xs-2">
+              <div class="thumbView" id="thumbView3"></div>
+          </div>
+  
+          <div class="col-lg-2 col-md-2 col-xs-2">
+              <div class="thumbView" id="thumbView4"></div>
+          </div>
+  
+          <div class="col-lg-2 col-md-2 col-xs-2">
+              <div class="thumbView" id="thumbView5"></div>
+          </div>
+        </row>
+
+
+      </div>
+      
+    </div>
+    </div>
+
+
+    <!-- LOAD IMAGE GALLERY -->
+     <script type="text/javascript">
+        Pics.mainView = "imageView1";
+        Pics.images = ['images/t1.JPG', 'images/t2.jpg', 'images/t3.JPG', 'images/t4.JPG', 'images/t5.jpg', 'images/t6.JPG', 'images/t7.JPG', 'images/t8.JPG'];
+        Pics.setup();
+      </script>
+
+  </body>
