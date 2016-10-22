@@ -45,9 +45,9 @@ $(document).ready(function() {
         var right = -left + e.clientX;
         var top = Math.round( (e.clientY - offset_t) );
         if (left >= right) {
-            Pics.nextPic();
+            ImageGallery.userWantsNext();
         } else {
-            Pics.previousPic();
+            ImageGallery.userWantsPrevius();
         }
     });
 });
@@ -58,8 +58,136 @@ $(document).ready(function() {
     in the imageView.
 */
 $(document).on('click', '.thumbView', function (event) {
-    Pics.setAtThumbViewId(event.target.id);
+    ImageGallery.userWantsThumbId(event.target.id);
 });
+
+
+var ImageGallery = {
+  images: [],
+  thumbs: [],
+  mainView: "",
+  imagesNum: 0,
+  thumbsNum: 0,
+  imIndex: 0,
+  thumbsStartIndexVal: 0,
+
+  setup: function() {
+    this.imagesNum = 0;
+    this.thumbsNum = 0;
+    this.imIndex   = 0;
+    this.thumbsStartIndexVal = 0;
+    var nt = [];
+    this.thumbs = document.querySelectorAll('[id^="thumbView"]');
+    this.thumbs.forEach(item => {
+        nt.push(item.id);
+        this.thumbsNum++;
+    })
+    this.thumbs = nt
+    this.images.forEach(item => { this.imagesNum++; })
+    this.loadThumbsFromImageIndexTo(0, this.thumbsEndIndex());
+    this.setImageAtIndex(0);
+  },
+
+  userWantsNext: function() {
+    if (this.imagesNum == this.imIndex) { return; }
+    this.imIndex++;
+    this.setImageAtIndex(this.imIndex);
+  },
+
+  userWantsPrevius: function() {
+    if (this.imIndex == 0) { return; }
+    this.imIndex--;
+    this.setImageAtIndex(this.imIndex);
+  },
+
+  userWantsThumbId: function(thumbId) {
+    var k = 0;
+    this.thumbs.forEach(item => {
+      if (item == thumbId) {
+        var startIndex = this.thumbsStartIndex();
+        this.setImageAtIndex(k + startIndex);
+      }
+      k++;
+    })
+  },
+
+  setImageAtIndex: function(index) {
+    if (index > (this.imagesNum - 1)) { return; }
+    if (index < 0) { return; }
+    if (this.imagesNum == 0) { return; }
+    this.imIndex = index;
+    document.getElementById(this.mainView).style.backgroundImage = "url('" + this.images[index] + "')";
+    this.manageThumbsScroll();
+    var selectedThumbIndex = this.thumbIndexFromImIndex();
+    this.unselectAllThumbs();
+    this.setSelectedThumbWithThumbIndex(selectedThumbIndex);
+  },
+
+  manageThumbsScroll: function() {
+    // Convert imIndex in thumbsIndex
+    var currentThumbIndex = this.thumbIndexFromImIndex();
+    var thumbsSize = this.thumbsNum;
+    console.log("currentThumbIndex: ", currentThumbIndex);
+    if (currentThumbIndex == (thumbsSize - 1) ) {
+      if (this.imIndex == (this.imagesNum - 1) ) { 
+        console.log("End of pics, not go on");
+        return; 
+      }
+      // Go on
+      this.thumbsStartIndexVal += 1;
+      console.log("StartIndexThumb: ", this.thumbsStartIndexVal);
+      this.loadThumbsFromImageIndexTo(this.thumbsStartIndexVal, this.thumbsEndIndex());
+    } else if (currentThumbIndex == 0 && this.imIndex != 0) {
+      // Go back
+      this.thumbsStartIndexVal -= 1;
+      console.log("StartIndexThumb: ", this.thumbsStartIndexVal);
+      this.loadThumbsFromImageIndexTo(this.thumbsStartIndexVal, this.thumbsEndIndex());
+    }
+  },
+
+  loadThumbsFromImageIndexTo: function(min, max) {
+    var imgIdx = min;
+    if (imgIdx < 0 || this.imagesNum == 0) { return; }
+    for (var i = 0; i < this.thumbsNum; i++) {
+      if (imgIdx > (this.imagesNum - 1)) { return; }
+      if (imgIdx == max) { return; }
+      document.getElementById(this.thumbs[i]).style.backgroundImage = "url('" + this.images[imgIdx] + "')";
+      imgIdx++;
+    }
+  },
+
+  setSelectedThumbWithThumbIndex: function(thumbIndex) {
+    document.getElementById(this.thumbs[thumbIndex]).style.opacity = 1.0;
+  },
+
+  unselectAllThumbs: function() {
+    for (var i = 0; i < this.thumbsNum; i++) {
+      document.getElementById(this.thumbs[i]).style.opacity = 0.5;
+    }
+  },
+
+  thumbsStartIndex: function() {
+    return this.thumbsStartIndexVal;
+  },
+
+  thumbsEndIndex: function() {
+    return (this.thumbsStartIndexVal + this.thumbsNum);
+  },
+
+  thumbIndexFromImIndex: function() {
+    return this.imIndex - this.thumbsStartIndex(); 
+  },
+
+  calcPositiveThumbsJump: function() {
+    var remainingImgs = this.imagesNum - (this.imIndex);
+    if (remainingImgs > this.thumbsNum) {
+      return this.thumbsNum;
+    } else {
+      return remainingImgs;
+    }
+  }
+}; 
+
 
 /**
     The main pure JS class for manage
@@ -82,13 +210,14 @@ var Pics = {
   nextThumbnail: function(currentIndex) {
     // Check if currentIndex position is in the
     // last thumbnail show
-    if (currentIndex == this.calcMaxIndex() - 1) {
+    if (currentIndex >= this.calcMaxIndex() - 1) {
       // How many remains?
       var rem = this._imgNum - this.calcMaxIndex();
       if (rem >= this._thuNum) {
         // If number of remaining pics is greater the thumbs
         // window capacity
         this._thuPop += this._thuNum - 1;
+        console.log(currentIndex, this.calcMaxIndex() - 1, rem, this._thuNum, this._thuPop);
         this.createThumbs(this._thuPop, this._thuNum + this._thuPop);
       } else {
         console.log("else_up")
@@ -99,7 +228,7 @@ var Pics = {
       // How many remains?
       var rem = this.calcMinIndex();
       if (rem >= this._thuNum) {
-        // If number of remaining pics is greater the thumbs
+        // If number of remaining pics is greater than thumbs
         // window capacity
         this._thuPop -= this._thuNum - 1;
         this.createThumbs(this._thuPop, this._thuNum + this._thuPop);
