@@ -17,6 +17,9 @@ This provide a lot of customization possibilites.
 Anyway, I have developed some layouts, some of them uses 
 Bootstrap. 
 
+Currently, the images are show in the *background-image* CSS property.
+I'm developing the classic *<img>* HTML version.
+
 ## The first example
 
 ```html
@@ -28,5 +31,21 @@ Bootstrap.
   <div class="thumbView" id="thumbView2"></div>
 </row>
 ```
+We load the images with the following script:
 
-  
+```javascript
+<script type="text/javascript">
+  ImageGallery.mainView = 'imageView1';
+  ImageGallery.images = ['images/t1.JPG', 'images/t2.jpg', 'images/t3.JPG', 'images/t4.JPG', 'images/t5.jpg', 'images/t6.JPG', 'images/t7.JPG', 'images/t8.JPG', 'images/t1.JPG', 'images/t2.jpg', 'images/t3.JPG', 'images/t4.JPG', 'images/t5.jpg', 'images/t6.JPG', 'images/t7.JPG', 'images/t8.JPG'];
+  ImageGallery.setup();
+</script>
+```
+
+In this example we set the main image, of the class named *imageView*,
+and we set an id for this main image.
+
+We also created three thumbs images, with the class *thumbView*.
+
+You can show the results in the following image:
+
+![First example](t1.png)
