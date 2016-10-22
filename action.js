@@ -137,20 +137,16 @@ var ImageGallery = {
     // Convert imIndex in thumbsIndex
     var currentThumbIndex = this.thumbIndexFromImIndex();
     var thumbsSize = this.thumbsNum;
-    console.log("currentThumbIndex: ", currentThumbIndex);
     if (currentThumbIndex == (thumbsSize - 1) ) {
       if (this.imIndex == (this.imagesNum - 1) ) { 
-        console.log("End of pics, not go on");
         return; 
       }
       // Go on
       this.thumbsStartIndexVal += 1;
-      console.log("StartIndexThumb: ", this.thumbsStartIndexVal);
       this.loadThumbsFromImageIndexTo(this.thumbsStartIndexVal, this.thumbsEndIndex());
     } else if (currentThumbIndex == 0 && this.imIndex != 0) {
       // Go back
       this.thumbsStartIndexVal -= 1;
-      console.log("StartIndexThumb: ", this.thumbsStartIndexVal);
       this.loadThumbsFromImageIndexTo(this.thumbsStartIndexVal, this.thumbsEndIndex());
     }
   },

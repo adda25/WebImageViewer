@@ -27,7 +27,8 @@ in this webpages:
 * [My personal webpage](http://amedeosetti.com)
 * [Another webpage - Not active yet](http://amedeosetti.com)
 
-## The first example [index.html]
+## The first example 
+#### index.html
 
 ```html
 <!-- Set the main image -->
@@ -60,6 +61,47 @@ You can show the results in the following image:
 
 ![First example](t1.png)
 
+
+## The second example
+#### bootstrap-example-1.html
+In this example we use Bootstrap in order to layout
+the thumbs and main image positions.
+
+```html
+<div class="col-lg-12 col-md-12 col-xs-12" style="background-color: rgba(200,200,200,1.0)">
+      <div class="container-fluid">
+      </br>
+        <div class="imageView" id="imageView1"></div>
+        <div class="container-fluid" style="padding-top: 50px; padding-bottom: 25px; text-align: center;">
+          <row>
+            <div class="col-lg-2 col-md-2 col-xs-2">
+              <div class="thumbView" id="thumbView0"></div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-xs-2">
+              <div class="thumbView" id="thumbView1"></div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-xs-2">
+              <div class="thumbView" id="thumbView2"></div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-xs-2">
+              <div class="thumbView" id="thumbView3"></div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-xs-2">
+              <div class="thumbView" id="thumbView4"></div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-xs-2">
+              <div class="thumbView" id="thumbView5"></div>
+            </div>
+          </row>
+        </div>
+      </div>
+    </div>
+```
+
+The loading part is the same as the first example.
+The results is the following:
+
+![Second example](t2.png)
 
 ##Dependencies
 The ImageGallery uses jQuery in order to detect the touch points
