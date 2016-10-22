@@ -117,10 +117,20 @@ var ImageGallery = {
     if (this.imagesNum == 0) { return; }
     this.imIndex = index;
     document.getElementById(this.mainView).style.backgroundImage = "url('" + this.images[index] + "')";
-    this.manageThumbsScroll();
-    var selectedThumbIndex = this.thumbIndexFromImIndex();
-    this.unselectAllThumbs();
-    this.setSelectedThumbWithThumbIndex(selectedThumbIndex);
+    if (this.thumbsNum == 0) {
+      return;
+    } else if (this.thumbsNum == 1) {
+      this.loadThumbsFromImageIndexTo(this.imIndex, this.imIndex + 1);
+      this.setSelectedThumbWithThumbIndex(0);
+    } else if (this.thumbsNum == 2) {
+      this.loadThumbsFromImageIndexTo(this.imIndex, this.imIndex + 2);
+      this.setSelectedThumbWithThumbIndex(0);
+    } else { 
+      this.manageThumbsScroll();
+      var selectedThumbIndex = this.thumbIndexFromImIndex();
+      this.unselectAllThumbs();
+      this.setSelectedThumbWithThumbIndex(selectedThumbIndex);
+    }
   },
 
   manageThumbsScroll: function() {
@@ -176,144 +186,8 @@ var ImageGallery = {
 
   thumbIndexFromImIndex: function() {
     return this.imIndex - this.thumbsStartIndex(); 
-  },
-
-  calcPositiveThumbsJump: function() {
-    var remainingImgs = this.imagesNum - (this.imIndex);
-    if (remainingImgs > this.thumbsNum) {
-      return this.thumbsNum;
-    } else {
-      return remainingImgs;
-    }
   }
+
 }; 
 
-
-/**
-    The main pure JS class for manage
-    the pics system.
-    Call the setup for load the images to show.
-    This class automatically detects the number
-    of thumbViews presents.
-*/
-var Pics = { 
-  index: 0,
-  images: [],
-  mainView: "",
-  _thumbs: [],   /* Should be private */
-  _lastThIdx: 0, /* Private */
-  _lastOp: 1,    /* Private */
-  _imgNum: 0,    /* Private */
-  _thuNum: 0,    /* Private */
-  _thuPop: 0,    /* Private */
-
-  nextThumbnail: function(currentIndex) {
-    // Check if currentIndex position is in the
-    // last thumbnail show
-    if (currentIndex >= this.calcMaxIndex() - 1) {
-      // How many remains?
-      var rem = this._imgNum - this.calcMaxIndex();
-      if (rem >= this._thuNum) {
-        // If number of remaining pics is greater the thumbs
-        // window capacity
-        this._thuPop += this._thuNum - 1;
-        console.log(currentIndex, this.calcMaxIndex() - 1, rem, this._thuNum, this._thuPop);
-        this.createThumbs(this._thuPop, this._thuNum + this._thuPop);
-      } else {
-        console.log("else_up")
-        this._thuPop += (rem)
-        this.createThumbs(this._thuPop, this._thuPop + this._thuNum);
-      }
-    } else if (currentIndex == this.calcMinIndex() && currentIndex != 0) {
-      // How many remains?
-      var rem = this.calcMinIndex();
-      if (rem >= this._thuNum) {
-        // If number of remaining pics is greater than thumbs
-        // window capacity
-        this._thuPop -= this._thuNum - 1;
-        this.createThumbs(this._thuPop, this._thuNum + this._thuPop);
-      } else {
-        console.log("else_down")
-        this._thuPop -= (rem)
-        this.createThumbs(this._thuPop, this._thuPop + this._thuNum);
-      }
-    }
-    var k = 0;
-    this._thumbs.forEach(item => {
-        document.getElementById(this._thumbs[k]).style.opacity = 0.5;
-        if (k == (currentIndex - this._thuPop)) {
-          document.getElementById(this._thumbs[k]).style.opacity = 1.0;
-        }
-        k++;
-    });
-  },
-
-  calcMinIndex: function() {
-    return this._thuPop;
-  },
-
-  calcMaxIndex: function() {
-    if (this._thuNum + this._thuPop <= this._imgNum) {
-      return this._thuNum + this._thuPop;
-    } else {
-      return this._imgNum;
-    }
-  },
-
-  setAtThumbViewId: function(thumbId) {
-    var k = 0;
-    this._thumbs.forEach(item => {
-        if (item == thumbId) {
-            this.index = k + this._thuPop;
-            this.nextThumbnail(this.index);  
-            document.getElementById(this.mainView).style.backgroundImage = "url('" + this.images[this.index] + "')";
-        }
-        k++;
-    })
-  },
-
-  setAtIndex: function(index) {
-    this.nextThumbnail(index);  
-    document.getElementById(this.mainView).style.backgroundImage = "url('" + this.images[index] + "')";
-  },
-
-  nextPic: function() {
-    if (this.index >= this._imgNum - 1) { return; }
-    this.index++;
-    this.setAtIndex(this.index);
-    if (this.index == this._imgNum) { this.index--; }
-  },
-
-  previousPic: function() {
-    if (this.index == 0) { return; }
-    this.index--;
-    this.setAtIndex(this.index);
-  },
-
-  createThumbs: function(min, max) {
-    var k = 0;
-    for (var i = min; i < max; i++) {
-        if (i >= this._imgNum) { break; }
-        document.getElementById(this._thumbs[k]).style.backgroundImage = "url('" + this.images[i] + "')";
-        k++;
-    }
-  },
-
-  setup: function() {
-    var nt = [];
-    this.index = 0;
-    this._thumbs = document.querySelectorAll('[id^="thumbView"]');
-    this._thuNum = 0;
-    this._imgNum = 0;
-    this._thuPop = 0;
-    this._thumbs.forEach(item => {
-        nt.push(item.id);
-        this._thuNum++;
-    })
-    this._thumbs = nt
-    this.images.forEach(item => { this._imgNum++; })
-    this.setAtIndex(0);
-    this.createThumbs(0, this._thuNum);
-  }
-};
 

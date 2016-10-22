@@ -30,26 +30,6 @@ SOFTWARE.
 
 */
 
-.imageViewController {
-  margin-left:auto;
-  margin-right:auto;
-  left:0;
-  right:0;
-  overflow-x: hidden;
-  min-width: 100%;
-  max-width: 100vw;
-  min-height: 90%;
-  max-height: 100vh;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  background-size: contain;
-  -o-background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: rgba(255,255,255,0.0);
-  text-align: center;
-}
-
 .imageView {
   margin-left:auto;
   margin-right:auto;
@@ -94,58 +74,9 @@ SOFTWARE.
   -webkit-border-radius: 2px;
   border-radius: 2px;
   transition: all 0.2s ease-in-out;
-}
-
-.imageButton {
-  margin-left:auto;
-  margin-right:auto;
-  overflow-x: hidden;
-  width: 100%
-  max-width:100vw;
-  height: 100%
-  max-height: 100vh
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
-  -o-background-size: cover;
-  background-position: center;
-  background-color: rgba(240,240,240,0.8);
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.square {
-  width: 100%;
-  padding-top:100%;
-}
-
-.bar-el {
-  width: 100%;
-  height: 50px;
-  margin: 0px 0px 0px 0px;
-}
-
-.col-lg-12 {
-  padding: 0px 0px 0px 0px;
-}
-
-.col-lg-2 {
-  padding: 0px 0px 0px 0px;
-}
-
-
-@keyframes translate {
-  0% {-webkit-transform: translate(0em,0)}
-  100% {-webkit-transform: translate(1em,0)}
-    /*from {background-color: rgba(100,100,100,1.0);}
-    to {background-color: red;}*/
-}
-
-@keyframes enlarge {
-  0% {-webkit-transform: scale(1.0)}
-  100% {-webkit-transform: scale(1.2)}
-    /*from {background-color: rgba(100,100,100,1.0);}
-    to {background-color: red;}*/
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  float: left;
 }
