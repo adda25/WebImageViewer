@@ -88,9 +88,10 @@ var Pics = {
       if (rem >= this._thuNum) {
         // If number of remaining pics is greater the thumbs
         // window capacity
-        this._thuPop += this._thuNum;
+        this._thuPop += this._thuNum - 1;
         this.createThumbs(this._thuPop, this._thuNum + this._thuPop);
       } else {
+        console.log("else_up")
         this._thuPop += (rem)
         this.createThumbs(this._thuPop, this._thuPop + this._thuNum);
       }
@@ -100,9 +101,10 @@ var Pics = {
       if (rem >= this._thuNum) {
         // If number of remaining pics is greater the thumbs
         // window capacity
-        this._thuPop -= this._thuNum;
+        this._thuPop -= this._thuNum - 1;
         this.createThumbs(this._thuPop, this._thuNum + this._thuPop);
       } else {
+        console.log("else_down")
         this._thuPop -= (rem)
         this.createThumbs(this._thuPop, this._thuPop + this._thuNum);
       }
