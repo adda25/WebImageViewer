@@ -80,47 +80,81 @@ var Pics = {
   _thuPop: 0,    /* Private */
 
   nextThumbnail: function(currentIndex) {
-    if (currentIndex >= (this._thuNum + this._thuPop)) {
-        // Go on
-        this._thuPop++;
+    // Check if currentIndex position is in the
+    // last thumbnail show
+    if (currentIndex == this.calcMaxIndex() - 1) {
+      // How many remains?
+      var rem = this._imgNum - this.calcMaxIndex();
+      if (rem >= this._thuNum) {
+        // If number of remaining pics is greater the thumbs
+        // window capacity
+        this._thuPop += this._thuNum;
         this.createThumbs(this._thuPop, this._thuNum + this._thuPop);
-    } else if (this._thuPop > 0) {
-        // Go back
-        this._thuPop--;
+      } else {
+        this._thuPop += (rem)
+        this.createThumbs(this._thuPop, this._thuPop + this._thuNum);
+      }
+    } else if (currentIndex == this.calcMinIndex() && currentIndex != 0) {
+      // How many remains?
+      var rem = this.calcMinIndex();
+      if (rem >= this._thuNum) {
+        // If number of remaining pics is greater the thumbs
+        // window capacity
+        this._thuPop -= this._thuNum;
         this.createThumbs(this._thuPop, this._thuNum + this._thuPop);
+      } else {
+        this._thuPop -= (rem)
+        this.createThumbs(this._thuPop, this._thuPop + this._thuNum);
+      }
+    }
+    var k = 0;
+    this._thumbs.forEach(item => {
+        document.getElementById(this._thumbs[k]).style.opacity = 0.5;
+        if (k == (currentIndex - this._thuPop)) {
+          document.getElementById(this._thumbs[k]).style.opacity = 1.0;
+        }
+        k++;
+    });
+  },
+
+  calcMinIndex: function() {
+    return this._thuPop;
+  },
+
+  calcMaxIndex: function() {
+    if (this._thuNum + this._thuPop <= this._imgNum) {
+      return this._thuNum + this._thuPop;
+    } else {
+      return this._imgNum;
     }
   },
 
   setAtThumbViewId: function(thumbId) {
     var k = 0;
     this._thumbs.forEach(item => {
-        document.getElementById(this._thumbs[k]).style.opacity = 0.5;
         if (item == thumbId) {
             this.index = k + this._thuPop;
-            Pics.setAtIndex(k);
+            this.nextThumbnail(this.index);  
+            document.getElementById(this.mainView).style.backgroundImage = "url('" + this.images[this.index] + "')";
         }
         k++;
     })
   },
 
   setAtIndex: function(index) {
-    console.log(index);
     this.nextThumbnail(index);  
-    document.getElementById(this._thumbs[index - this._thuPop]).style.opacity = 1.0;
     document.getElementById(this.mainView).style.backgroundImage = "url('" + this.images[index] + "')";
   },
 
   nextPic: function() {
     if (this.index >= this._imgNum - 1) { return; }
-    document.getElementById(this._thumbs[this.index - this._thuPop]).style.opacity = 0.5;
-    this.setAtIndex(this.index + 1);
     this.index++;
+    this.setAtIndex(this.index);
     if (this.index == this._imgNum) { this.index--; }
   },
 
   previousPic: function() {
     if (this.index == 0) { return; }
-    document.getElementById(this._thumbs[this.index - this._thuPop]).style.opacity = 0.5;
     this.index--;
     this.setAtIndex(this.index);
   },
@@ -150,6 +184,5 @@ var Pics = {
     this.setAtIndex(0);
     this.createThumbs(0, this._thuNum);
   }
-
 };
 
