@@ -117,15 +117,15 @@ var WebGallery = {
     var set_image_at_index = function(index) {
       if (index > (images_size - 1)) { return; }
       if (index < 0) { return; }
-      if (images_size == 0) { return; }
+      if (images_size === 0) { return; }
       image_index = index;
       document.getElementById(main_view).style.backgroundImage = "url('" + images[index] + "')";
-      if (thumbs_size == 0) {
+      if (thumbs_size === 0) {
         return;
-      } else if (thumbs_size == 1) {
+      } else if (thumbs_size === 1) {
         load_thumbs_from_image_index_to(image_index, image_index + 1);
         set_selected_thumb_with_thumb_index(0);
-      } else if (thumbs_size == 2) {
+      } else if (thumbs_size === 2) {
         load_thumbs_from_image_index_to(image_index, image_index + 2);
         set_selected_thumb_with_thumb_index(0);
       } else { 
@@ -146,7 +146,7 @@ var WebGallery = {
         // Go on
         thumbs_start_index_val += 1;
         load_thumbs_from_image_index_to(thumbs_start_index_val, thumbs_end_index());
-      } else if (current_thumb_index == 0 && image_index != 0) {
+      } else if (current_thumb_index === 0 && image_index !== 0) {
         // Go back
         thumbs_start_index_val -= 1;
         load_thumbs_from_image_index_to(thumbs_start_index_val, thumbs_end_index());
@@ -155,10 +155,10 @@ var WebGallery = {
 
     var load_thumbs_from_image_index_to = function(min, max) {
       var img_idx = min;
-      if (img_idx < 0 || images_size == 0) { return; }
+      if (img_idx < 0 || images_size === 0) { return; }
       for (var i = 0; i < thumbs_size; i++) {
         if (img_idx > (images_size - 1)) { return; }
-        if (img_idx == max) { return; }
+        if (img_idx === max) { return; }
         document.getElementById(thumbs[i]).style.backgroundImage = "url('" + images[img_idx] + "')";
         img_idx++;
       }
@@ -213,13 +213,13 @@ var WebGallery = {
       },
 
       next: function() {
-        if (images_size == image_index) { return; }
+        if (images_size === image_index) { return; }
         image_index++;
         set_image_at_index(image_index);
       },
 
       previus: function() {
-        if (image_index == 0) { return; }
+        if (image_index === 0) { return; }
         image_index--;
         set_image_at_index(image_index);
       },
@@ -227,7 +227,7 @@ var WebGallery = {
       set_at_thumb_id: function(thumb_id) {
         var k = 0;
         thumbs.forEach(item => {
-          if (item == thumb_id) {
+          if (item === thumb_id) {
             var start_index = thumbs_start_index();
             set_image_at_index(k + start_index);
           }
