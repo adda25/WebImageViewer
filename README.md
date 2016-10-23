@@ -12,7 +12,7 @@ Main features:
   * Click on the thumb that you want to see
 
 
-There is not a predefined layout. You must do it on your own.  
+There is not a predefined layout; this is up to you.
 This provide a lot of customization possibilites.
 Anyway, I have developed some layouts, some of them uses 
 Bootstrap. 
@@ -22,10 +22,44 @@ I'm developing the classic *<img>* HTML version.
 
 ## Online examples
 You can observe some examples of the ImageGallery
-in this webpages:
+in this webpage:
 
 * [My personal webpage](http://amedeosetti.com)
-* [Another webpage - Not active yet](http://amedeosetti.com)
+
+## Usage
+* Include the *action.js* and the *style.css* in your HTML page where
+  you want to display the image gallery.
+* Set a target main view, whith a html id of your choice -> *exampleId*
+* [Optional] Create some thumb images; the html id must start with *thumbView*.
+* At the end of the html, load the images.
+
+```html
+<body>
+<!-- ... your stuff ... -->
+<div class="imageView" id="exampleId"> </div>
+<row>
+  <div class="thumbView" id="thumbView0"></div>
+  <div class="thumbView" id="thumbView4isBetter"></div>
+  <div class="thumbView" id="thumbViewPunkIsNotDead"></div>
+</row>
+<!-- ... your stuff ... -->
+<script>
+WebGallery.setup('exampleId', ['imageOne.jpg', 'im2.png', 'and so on']);
+</script>
+</body>
+```
+
+## WebGallery API
+The WebGallery has only few methods that you should use.
+
+* setup(image_view_id, list_of_images);
+* next(); 
+* previus();
+* set_at_thumb_id(thumb_id);
+
+You need to use only the setup methods, the others are
+handled directly from two jQuery functions.
+
 
 ## The first example 
 #### index.html
@@ -45,12 +79,7 @@ We load the images with the following script:
 
 ```javascript
 <script type="text/javascript">
-  // Set the main image id to the ImageGallery
-  ImageGallery.mainView = 'imageView1';
-  // Set the images you want to show.
-  ImageGallery.images = ['images/t1.JPG', 'images/t2.jpg', 'images/t3.JPG', 'images/t4.JPG', 'images/t5.jpg', 'images/t6.JPG', 'images/t7.JPG', 'images/t8.JPG', 'images/t1.JPG', 'images/t2.jpg', 'images/t3.JPG', 'images/t4.JPG', 'images/t5.jpg', 'images/t6.JPG', 'images/t7.JPG', 'images/t8.JPG'];
-  // Setup the ImageGallery
-  ImageGallery.setup();
+  WebGallery.setup('imageView1', ['images/t1.JPG', 'images/t2.jpg', 'images/t3.JPG', 'images/t4.JPG', 'images/t5.jpg', 'images/t6.JPG', 'images/t7.JPG', 'images/t8.JPG', 'images/t1.JPG', 'images/t2.jpg', 'images/t3.JPG', 'images/t4.JPG', 'images/t5.jpg', 'images/t6.JPG', 'images/t7.JPG', 'images/t8.JPG']);
 </script>
 ```
 
