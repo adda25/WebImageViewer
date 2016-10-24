@@ -39,7 +39,7 @@ $(document).ready(function() {
     half width, than the next image is 
     presented, and viceversa.
   */
-  $('#' + WebGallery.data.get_main_view_id()).click(function (e) { 
+  $(".web-gallery-view").click(function (e) { 
     var offset_l = $(this).offset().left - $(window).scrollLeft();
     var left = Math.round( (e.clientX - offset_l) );
     var div_width = $(this).width();
@@ -55,7 +55,7 @@ $(document).ready(function() {
     than the selected thumb is show
     in the imageView.
   */
-  $(document).on('click', '.thumbView', function (event) {
+  $(document).on('click', '.web-gallery-thumbs', function (event) {
     WebGallery.set_at_thumb_id(event.target.id);
   });
 });
@@ -79,8 +79,8 @@ var WebGallery = {
                                            
   */
 
-  setup: function(main_view_id, images_to_load) {
-    this.data.setup(main_view_id, images_to_load);
+  setup: function(images_to_load) {
+    this.data.setup(images_to_load);
   },
 
   next: function() {
@@ -108,7 +108,6 @@ var WebGallery = {
   data: (function() {
     var images = [];
     var thumbs = [];
-    var main_view = "";
     var images_size = 0;
     var thumbs_size = 0;
     var image_index = 0;
@@ -119,7 +118,7 @@ var WebGallery = {
       if (index < 0) { return; }
       if (images_size === 0) { return; }
       image_index = index;
-      document.getElementById(main_view).style.backgroundImage = "url('" + images[index] + "')";
+      document.getElementsByClassName("web-gallery-view")[0].style.backgroundImage = "url('" + images[index] + "')";
       if (thumbs_size === 0) {
         return;
       } else if (thumbs_size === 1) {
@@ -186,21 +185,46 @@ var WebGallery = {
       return image_index - thumbs_start_index(); 
     };
 
+    var setup_adding_divs = function(number_of_thumbs) {
+      console.log("Adding");
+      var thumbs_gallery = document.getElementsByClassName('web-gallery-thumbs')[0];
+      for (var i = 0; i < number_of_thumbs; i++) {
+        var div = document.createElement('div');
+        div.id = "web-gallery-thumbs-" + i;
+        thumbs_gallery.appendChild(div);
+      }
+    };
+
+    var setup_with_custom_divs = function() {
+      console.log("Custom");
+      var thumbs_gallery = document.getElementsByClassName('web-gallery-thumbs');
+      console.log(thumbs_gallery);
+      var i_id = 0;
+      for (var key in thumbs_gallery) {
+        if (thumbs_gallery.hasOwnProperty(key)) {
+          thumbs_gallery[key].id = "web-gallery-thumbs-" + i_id;
+          i_id += 1;
+        }
+      }
+    };
+
     return { 
 
-      get_main_view_id: function() {
-        return main_view;
-      },
-
-      setup: function(main_view_id, images_to_load) {
-        main_view = main_view_id;
+      setup: function(images_to_load) {
+        var thumbs_num = parseInt($(".web-gallery-thumbs").attr("data-web-gallery-thumbs"));
+        console.log("NumberOfThumbs:", thumbs_num);
+        if (!isNaN(thumbs_num)) {
+          setup_adding_divs(thumbs_num);
+        } else {
+          setup_with_custom_divs();
+        }
         images = images_to_load;
         images_size = 0;
-        thumbsNum = 0;
+        thumbs_size = 0;
         image_index = 0;
         thumbs_start_index_val = 0;
         var nt = [];
-        thumbs = document.querySelectorAll('[id^="thumbView"]');
+        thumbs = document.querySelectorAll('[id^="web-gallery-thumbs-"]');
         thumbs.forEach(item => {
             nt.push(item.id);
             thumbs_size++;

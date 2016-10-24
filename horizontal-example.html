@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Test</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="web-gallery-style.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="web-gallery-script.js"></script>
+  </head>
+
+  <body style="background-color: rgba(0,0,0,1.0)">
+    </br>
+    <div class="col-lg-12 col-md-12 col-xs-12" style="padding: 5px 30px 5px 30px;">
+      
+      <div class="col-lg-12 col-md-12 col-xs-12" style="padding: 1px 5px 5px 1px;">
+        <div class="web-gallery-view"></div>
+      </div>
+      <style>
+        .web-gallery-thumbs div {
+          width: 16%;
+          float: left;
+          margin-right: 5px;
+        }
+      </style>
+      <row class="web-gallery-thumbs" data-web-gallery-thumbs="6"> </row>
+
+    </div>
+
+    <!-- LOAD IMAGE GALLERY -->
+     <script type="text/javascript">
+        WebGallery.setup(['images/t1.JPG', 'images/t2.jpg', 'images/t3.JPG', 'images/t4.JPG', 'images/t5.jpg', 'images/t6.JPG', 'images/t7.JPG', 'images/t8.JPG', 'images/t1.JPG', 'images/t2.jpg', 'images/t3.JPG', 'images/t4.JPG', 'images/t5.jpg', 'images/t6.JPG', 'images/t7.JPG', 'images/t8.JPG']);
+      </script>
+
+  </body>
